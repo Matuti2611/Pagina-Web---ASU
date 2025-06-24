@@ -1,0 +1,754 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cravy Box - Recetas & Ingredientes Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom CSS for animations and specific styles */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        
+        .recipe-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+        
+        .nav-item:after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #f59e0b;
+            transition: width .3s;
+        }
+        
+        .nav-item:hover:after {
+            width: 100%;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-utensils text-amber-500 text-2xl"></i>
+                <a href="#" class="text-2xl font-bold text-gray-800">Cravy <span class="text-amber-500">Box</span></a>
+            </div>
+            
+            <!-- Mobile menu button -->
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none">
+                <i class="fas fa-bars text-gray-700 text-xl"></i>
+            </button>
+            
+            <!-- Desktop menu -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#recetas" class="nav-item text-gray-700 hover:text-amber-500 font-medium">Recetas</a>
+                <a href="#productos" class="nav-item text-gray-700 hover:text-amber-500 font-medium">Productos</a>
+                <a href="#chefs" class="nav-item text-gray-700 hover:text-amber-500 font-medium">Nuestros Chefs</a>
+                <a href="#nosotros" class="nav-item text-gray-700 hover:text-amber-500 font-medium">Sobre Nosotros</a>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-4">
+                <button class="text-gray-700 hover:text-amber-500">
+                    <i class="fas fa-search text-lg"></i>
+                </button>
+                <button class="text-gray-700 hover:text-amber-500 relative">
+                    <i class="fas fa-shopping-cart text-lg"></i>
+                    <span class="absolute -top-2 -right-2 bg-amber-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">3</span>
+                </button>
+                <button class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-full font-medium transition duration-300">
+                    Registrarse
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile menu (hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white px-4 py-2">
+            <div class="flex flex-col space-y-3">
+                <a href="#recetas" class="text-gray-700 hover:text-amber-500 py-2 border-b border-gray-100">Recetas</a>
+                <a href="#productos" class="text-gray-700 hover:text-amber-500 py-2 border-b border-gray-100">Productos</a>
+                <a href="#chefs" class="text-gray-700 hover:text-amber-500 py-2 border-b border-gray-100">Nuestros Chefs</a>
+                <a href="#nosotros" class="text-gray-700 hover:text-amber-500 py-2 border-b border-gray-100">Sobre Nosotros</a>
+                <div class="flex items-center space-x-4 py-2">
+                    <button class="text-gray-700 hover:text-amber-500">
+                        <i class="fas fa-search text-lg"></i>
+                    </button>
+                    <button class="text-gray-700 hover:text-amber-500 relative">
+                        <i class="fas fa-shopping-cart text-lg"></i>
+                        <span class="absolute -top-2 -right-2 bg-amber-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">3</span>
+                    </button>
+                </div>
+                <button class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-full font-medium transition duration-300 mb-2">
+                    Registrarse
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero text-white py-20 md:py-32">
+        <div class="container mx-auto px-4 text-center fade-in">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">Descubre el placer de cocinar</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">Recetas exclusivas e ingredientes premium seleccionados por nuestros chefs</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <button class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-full font-medium text-lg transition duration-300 transform hover:scale-105">
+                    Explora recetas
+                </button>
+                <button class="bg-transparent hover:bg-white hover:text-gray-900 border-2 border-white text-white px-8 py-3 rounded-full font-medium text-lg transition duration-300 transform hover:scale-105">
+                    Nuestros productos
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Featured Recipes -->
+    <section id="recetas" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Recetas Destacadas</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Descubre nuestras recetas creadas por chefs profesionales con ingredientes que puedes comprar directamente en nuestra tienda.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Recipe 1 -->
+                <div class="recipe-card bg-white rounded-xl shadow-lg overflow-hidden transition duration-500 fade-in delay-100">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://images.pexels.com/photos/19048370/pexels-photo-19048370.jpeg" 
+                             alt="Ensalada saludable" class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">NUEVO</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-500">Fácil • 30 min</span>
+                            <div class="flex items-center text-amber-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Ensalada Mediterránea Premium</h3>
+                        <p class="text-gray-600 mb-4">Deliciosa combinación de ingredientes frescos traídos directamente de la región mediterránea.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-amber-500 font-bold">$24.99</span>
+                            <button class="text-amber-500 hover:text-amber-600 font-medium flex items-center">
+                                Ver receta <i class="fas fa-chevron-right ml-1 text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recipe 2 -->
+                <div class="recipe-card bg-white rounded-xl shadow-lg overflow-hidden transition duration-500 fade-in delay-200">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://images.pexels.com/photos/14704837/pexels-photo-14704837.jpeg" 
+                             alt="Pasta gourmet" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-500">Intermedio • 45 min</span>
+                            <div class="flex items-center text-amber-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Pasta con Trufa Negra Italiana</h3>
+                        <p class="text-gray-600 mb-4">Una delicia italiana con nuestra selección de trufas negras de alta calidad importadas directamente de Italia.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-amber-500 font-bold">$32.99</span>
+                            <button class="text-amber-500 hover:text-amber-600 font-medium flex items-center">
+                                Ver receta <i class="fas fa-chevron-right ml-1 text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recipe 3 -->
+                <div class="recipe-card bg-white rounded-xl shadow-lg overflow-hidden transition duration-500 fade-in delay-300">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="https://images.pexels.com/photos/28625357/pexels-photo-28625357.jpeg" 
+                             alt="Postre gourmet" class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">MÁS VENDIDO</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-500">Difícil • 60 min</span>
+                            <div class="flex items-center text-amber-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3">Soufflé de Chocolate Belga</h3>
+                        <p class="text-gray-600 mb-4">El postre perfecto con nuestro chocolate belga premium de la marca Maison Dandoy.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-amber-500 font-bold">$28.99</span>
+                            <button class="text-amber-500 hover:text-amber-600 font-medium flex items-center">
+                                Ver receta <i class="fas fa-chevron-right ml-1 text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 fade-in delay-400">
+                <button class="border-2 border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white px-6 py-2 rounded-full font-medium transition duration-300">
+                    Ver más recetas
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- How it works -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">¿Cómo funciona Cravy Box?</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto">Nuestro proceso simple te permite disfrutar de la mejor experiencia culinaria desde la comodidad de tu hogar.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-6 fade-in delay-100">
+                    <div class="bg-white w-20 h-20 rounded-full flex items-center justify-center shadow-md mx-auto mb-6">
+                        <i class="fas fa-search text-amber-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">1. Encuentra tu receta</h3>
+                    <p class="text-gray-600">Explora nuestra colección de recetas creadas por chefs profesionales con diferentes niveles de dificultad.</p>
+                </div>
+                
+                <div class="text-center p-6 fade-in delay-200">
+                    <div class="bg-white w-20 h-20 rounded-full flex items-center justify-center shadow-md mx-auto mb-6">
+                        <i class="fas fa-cubes text-amber-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">2. Adquiere los ingredientes</h3>
+                    <p class="text-gray-600">Compra los ingredientes premium directamente desde nuestra tienda con envío rápido a tu domicilio.</p>
+                </div>
+                
+                <div class="text-center p-6 fade-in delay-300">
+                    <div class="bg-white w-20 h-20 rounded-full flex items-center justify-center shadow-md mx-auto mb-6">
+                        <i class="fas fa-utensils text-amber-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">3. Disfruta cocinando</h3>
+                    <p class="text-gray-600">Sigue nuestras instrucciones paso a paso y disfruta de una experiencia culinaria profesional en casa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Products Section -->
+    <section id="productos" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Ingredientes Premium</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Seleccionamos cuidadosamente cada ingrediente para garantizar la máxima calidad en tus platos.</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Product 1 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 fade-in delay-100">
+                    <div class="relative overflow-hidden h-40 product-img transition duration-500">
+                        <img src="https://images.pexels.com/photos/17542135/pexels-photo-17542135.jpeg" 
+                             alt="Aceite de oliva" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 mb-1">Aceite de Oliva Extra Virgen</h3>
+                        <p class="text-gray-600 text-sm mb-2">Toscana, Italia - 500ml</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-amber-500 font-bold">$18.99</span>
+                            <button class="text-white bg-amber-500 hover:bg-amber-600 rounded-full w-8 h-8 flex items-center justify-center">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 fade-in delay-200">
+                    <div class="relative overflow-hidden h-40 product-img transition duration-500">
+                        <img src="https://mundomaisverde.com/wp-content/uploads/2023/07/trufas-negras-verao-v3-300x300.webp" 
+                             alt="Trufa negra" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 mb-1">Trufa Negra Fresca</h3>
+                        <p class="text-gray-600 text-sm mb-2">Piamonte, Italia - 50g</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-amber-500 font-bold">$89.99</span>
+                            <button class="text-white bg-amber-500 hover:bg-amber-600 rounded-full w-8 h-8 flex items-center justify-center">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 fade-in delay-300">
+                    <div class="relative overflow-hidden h-40 product-img transition duration-500">
+                        <img src="https://images.pexels.com/photos/10487658/pexels-photo-10487658.jpeg" 
+                             alt="Azafrán" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 mb-1">Azafrán de La Mancha</h3>
+                        <p class="text-gray-600 text-sm mb-2">Castilla-La Mancha, España - 1g</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-amber-500 font-bold">$27.50</span>
+                            <button class="text-white bg-amber-500 hover:bg-amber-600 rounded-full w-8 h-8 flex items-center justify-center">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300 fade-in delay-400">
+                    <div class="relative overflow-hidden h-40 product-img transition duration-500">
+                        <img src="https://images.pexels.com/photos/29390872/pexels-photo-29390872.jpeg" 
+                             alt="Vino" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-gray-800 mb-1">Vino Tinto Reserva</h3>
+                        <p class="text-gray-600 text-sm mb-2">Rioja, España - 750ml</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-amber-500 font-bold">$35.00</span>
+                            <button class="text-white bg-amber-500 hover:bg-amber-600 rounded-full w-8 h-8 flex items-center justify-center">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 fade-in delay-500">
+                <button class="border-2 border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white px-6 py-2 rounded-full font-medium transition duration-300">
+                    Ver todos los productos
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Subscription CTA -->
+    <section class="py-16 bg-gradient-to-r from-amber-500 to-orange-500 text-white">
+        <div class="container mx-auto px-4 text-center fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Suscríbete a Cravy Box</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Recibe recetas exclusivas y cajas de ingredientes seleccionados mensualmente en tu domicilio.</p>
+            <div class="max-w-xl mx-auto bg-white rounded-full p-1 shadow-lg">
+                <div class="flex flex-col md:flex-row">
+                    <input type="email" placeholder="Tu correo electrónico" class="flex-grow px-4 py-3 rounded-l-full text-gray-800 focus:outline-none">
+                    <button class="bg-gray-900 text-white px-6 py-3 rounded-full font-medium transition duration-300 mt-2 md:mt-0 md:ml-2">
+                        Suscribirse
+                    </button>
+                </div>
+            </div>
+            <p class="text-sm mt-4">Puedes cancelar en cualquier momento. <a href="#" class="underline">Términos y condiciones</a></p>
+        </div>
+    </section>
+    
+    <!-- Testimonials -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Lo que dicen nuestros clientes</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Más de 10,000 clientes satisfechos han transformado su experiencia culinaria con Cravy Box.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md fade-in delay-100">
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center text-amber-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-500 text-sm">Hace 1 semana</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">"La pasta con trufa negra fue una experiencia increíble. Nunca pensé que podría cocinar algo así en casa. Los ingredientes eran de calidad excepcional."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="María G." class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-bold text-gray-800">María G.</h4>
+                            <p class="text-gray-600 text-sm">Suscriptora Premium</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md fade-in delay-200">
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center text-amber-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-500 text-sm">Hace 3 semanas</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">"Me encanta cómo Cravy Box hace que la cocina gourmet sea accesible. Las instrucciones son claras y los ingredientes siempre frescos. ¡Mi soufflé de chocolate quedó perfecto!"</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Carlos M." class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-bold text-gray-800">Carlos M.</h4>
+                            <p class="text-gray-600 text-sm">Suscriptor desde 2022</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md fade-in delay-300">
+                    <div class="flex items-center mb-4">
+                        <div class="flex items-center text-amber-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="text-gray-500 text-sm">Hace 1 día</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">"La atención al detalle en cada caja es increíble. No solo recibes ingredientes, sino también consejos profesionales y pequeñas sorpresas que hacen la experiencia especial."</p>
+                    <div class="flex items-center">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Ana L." class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-bold text-gray-800">Ana L.</h4>
+                            <p class="text-gray-600 text-sm">Nueva suscriptora</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Chefs Section -->
+    <section id="chefs" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Nuestro Equipo de Chefs</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Profesionales con experiencia en los mejores restaurantes del mundo creando recetas exclusivas para ti.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center fade-in delay-100">
+                    <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4 shadow-lg">
+                        <img src="https://plus.unsplash.com/premium_photo-1734437069907-bd6649ef017b?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                             alt="Chef Marco" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-1">Marco Bianchi</h3>
+                    <p class="text-amber-500 font-medium mb-2">Chef Italiano</p>
+                    <p class="text-gray-600 text-sm">Ex chef del restaurante Osteria Francescana, 3 estrellas Michelin.</p>
+                    <div class="flex justify-center space-x-3 mt-3">
+                        <a href="#" class="text-gray-600 hover:text-amber-500"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-amber-500"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-amber-500"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+                
+                <div class="text-center fade-in delay-200">
+                    <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4 shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" 
+                             alt="Chef Sophie" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-1">Jacques Lambert</h3>
+                    <p class="text-amber-500 font-medium mb-2">Pastelero Francés</p>
+                    <p class="text-gray-600 text-sm">Especialista en postres, formado en Le Cordon Bleu Paris.</p>
+                    <div class="flex justify-center space-x-3 mt-3">
+                        <a href="#" class="text-gray-600 hover:text-amber-500"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-amber-500"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-amber-500"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+                
+                <div class="text-center fade-in delay-300">
+                    <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4 shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1691611997169-ec769088fad5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDN8fHxlbnwwfHx8fHw%3D" 
+                             alt="Chef Javier" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-1">Javier Morales</h3>
+                    <p class="text-amber-500 font-medium mb-2">Chef Español</p>
+                    <p class="text-gray-600 text-sm">Experto en cocina mediterránea y productos ibéricos de calidad.</p>
+                    <div class="flex justify-center space-x-3 mt-3">
+                        <a href="#" class="text-gray-600 hover:text-amber-500"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-amber-500"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-amber-500"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+                
+                <div class="text-center fade-in delay-400">
+                    <div class="rounded-full overflow-hidden w-40 h-40 mx-auto mb-4 shadow-lg">
+                        <img src="https://plus.unsplash.com/premium_photo-1724873640560-438ffb30bded?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                             alt="Chef Akihiro" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-1">Akihiro Sato</h3>
+                    <p class="text-amber-500 font-medium mb-2">Chef Japonés</p>
+                    <p class="text-gray-600 text-sm">Maestro de sushi y cocina tradicional japonesa con 15 años de experiencia.</p>
+                    <div class="flex justify-center space-x-3 mt-3">
+                        <a href="#" class="text-gray-600 hover:text-amber-500"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-amber-500"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-amber-500"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Us -->
+    <section id="nosotros" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 mb-8 lg:mb-0 lg:pr-12 fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Nuestra Historia</h2>
+                    <p class="text-gray-600 mb-4">Cravy Box nació en 2018 de la pasión por llevar la experiencia de los restaurantes gourmet a los hogares. Fundada por un grupo de chefs y amantes de la gastronomía, buscamos romper las barreras entre los ingredientes excepcionales y los cocineros caseros.</p>
+                    <p class="text-gray-600 mb-6">Hoy trabajamos directamente con productores locales e internacionales para traer lo mejor de cada rincón del mundo a tu cocina, acompañado de recetas creadas por nuestros chefs profesionales.</p>
+                    <button class="bg-amber-500 hover:bg-amber-600 text-white px-6 py-2 rounded-full font-medium transition duration-300">
+                        Conoce más
+                    </button>
+                </div>
+                <div class="lg:w-1/2 rounded-xl overflow-hidden shadow-xl fade-in delay-100">
+                    <img src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" 
+                         alt="Equipo Cravy Box" class="w-full h-auto object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Preguntas Frecuentes</h2>
+                <p class="text-gray-600">¿Tienes dudas? Aquí respondemos las preguntas más comunes sobre nuestros servicios.</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="border border-gray-200 rounded-lg overflow-hidden fade-in delay-100">
+                    <button class="faq-toggle w-full flex justify-between items-center p-4 focus:outline-none">
+                        <h3 class="text-lg font-medium text-left text-gray-800">¿Cómo funcionan las suscripciones de Cravy Box?</h3>
+                        <i class="fas fa-chevron-down text-amber-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-4 pb-4 text-gray-600">
+                        <p>Ofrecemos tres tipos de suscripción: Básica (1 receta + ingredientes al mes), Premium (2 recetas + ingredientes) y Master (4 recetas + ingredientes). Puedes cancelar o cambiar tu suscripción en cualquier momento desde tu cuenta.</p>
+                    </div>
+                </div>
+                
+                <div class="border border-gray-200 rounded-lg overflow-hidden fade-in delay-200">
+                    <button class="faq-toggle w-full flex justify-between items-center p-4 focus:outline-none">
+                        <h3 class="text-lg font-medium text-left text-gray-800">¿Los ingredientes incluyen cantidades exactas para las recetas?</h3>
+                        <i class="fas fa-chevron-down text-amber-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-4 pb-4 text-gray-600">
+                        <p>Sí, todos nuestros kits incluyen las cantidades exactas de cada ingrediente necesario para preparar la receta. Para productos básicos como aceite de oliva, sal o pimienta que deberías tener en casa, especificamos la cantidad necesaria en las instrucciones.</p>
+                    </div>
+                </div>
+                
+                <div class="border border-gray-200 rounded-lg overflow-hidden fade-in delay-300">
+                    <button class="faq-toggle w-full flex justify-between items-center p-4 focus:outline-none">
+                        <h3 class="text-lg font-medium text-left text-gray-800">¿Puedo comprar ingredientes sin suscribirme?</h3>
+                        <i class="fas fa-chevron-down text-amber-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-4 pb-4 text-gray-600">
+                        <p>¡Claro! Nuestra tienda online está abierta para todos. Puedes comprar cualquier ingrediente por separado sin necesidad de suscripción. Además, en cada receta encontrarás enlaces directos a los productos necesarios.</p>
+                    </div>
+                </div>
+                
+                <div class="border border-gray-200 rounded-lg overflow-hidden fade-in delay-400">
+                    <button class="faq-toggle w-full flex justify-between items-center p-4 focus:outline-none">
+                        <h3 class="text-lg font-medium text-left text-gray-800">¿A qué países envían los productos?</h3>
+                        <i class="fas fa-chevron-down text-amber-500 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-4 pb-4 text-gray-600">
+                        <p>Actualmente enviamos a toda la Unión Europea, Estados Unidos, Canadá y México. Trabajamos constantemente para expandir nuestra cobertura. El coste de envío varía según el destino y se calcula durante el proceso de compra.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 fade-in delay-500">
+                <p class="text-gray-600 mb-4">¿No encontraste tu respuesta?</p>
+                <button class="border-2 border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white px-6 py-2 rounded-full font-medium transition duration-300">
+                    Contacta con nosotros
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div class="fade-in">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-utensils text-amber-500 text-2xl"></i>
+                        <h3 class="text-2xl font-bold">Cravy <span class="text-amber-500">Box</span></h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">Llevamos el mundo de la gastronomía profesional a tu cocina.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-amber-500"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-amber-500"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-amber-500"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-amber-500"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="fade-in delay-100">
+                    <h4 class="text-lg font-bold mb-4">Recursos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Blog de recetas</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Guía de productos</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Tutoriales en video</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Calculadora de porciones</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Calendario de temporada</a></li>
+                    </ul>
+                </div>
+                
+                <div class="fade-in delay-200">
+                    <h4 class="text-lg font-bold mb-4">Compañía</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Sobre nosotros</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Nuestros chefs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Proveedores</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Trabaja con nosotros</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Sostenibilidad</a></li>
+                    </ul>
+                </div>
+                
+                <div class="fade-in delay-300">
+                    <h4 class="text-lg font-bold mb-4">Contacto</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-amber-500 mt-1 mr-3"></i>
+                            <span class="text-gray-400">Calle Gourmet 123, 28001 Rosario, Santa Fe, Argentina</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone text-amber-500 mr-3"></i>
+                            <span class="text-gray-400">+54 341 123 4567</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope text-amber-500 mr-3"></i>
+                            <span class="text-gray-400">hola@cravybox.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center fade-in delay-400">
+                <p class="text-gray-400 mb-4 md:mb-0">© 2025 Cravy Box. Todos los derechos reservados.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-amber-500 text-sm">Términos de servicio</a>
+                    <a href="#" class="text-gray-400 hover:text-amber-500 text-sm">Política de privacidad</a>
+                    <a href="#" class="text-gray-400 hover:text-amber-500 text-sm">Política de cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Back to top button -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 bg-amber-500 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // FAQ toggle functionality
+        const faqToggles = document.querySelectorAll('.faq-toggle');
+        faqToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                content.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+        
+        // Back to top button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+        
+        // Animation on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        fadeElements.forEach(element => {
+            element.style.opacity = 0;
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            fadeInObserver.observe(element);
+        });
+    </script>
+</body>
+</html>
